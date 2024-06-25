@@ -1,0 +1,33 @@
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:8.4.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=public_safety_app_db
+      - MYSQL_USER=seguser12
+      - MYSQL_PASSWORD=password
+    ports:
+      - '3306:3306'
+    networks:
+      - app-nets
+
+  app:
+    container_name: public-safety-api
+    build: .
+    image: public-safety-api:v1.0.0
+    restart: unless-stopped
+    environment:
+      SPRING-PROFILES-ACTIVE: docker
+      SPRING-DATASOURCE-URL: jdbc://mysql://mysqldb:3306/public_safety_app_db
+      SPRING-DATABASOURCE-USERNAME: seguser12
+      SPRING-DATABASOURCE-PASSWORD: password
+    ports:
+      - '8080:8080'
+    networks:
+      - app-nets
+
+networks:
+  app-nets:
+    driver: bridge
