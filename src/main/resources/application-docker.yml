@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: 'green-team-public-safety-api'
+  datasource:
+    url: 'jdbc:mysql://mysqldb:3306/public_safety_app_db'
+    username: seguser12
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+springdoc:
+  swagger-ui:
+    path: '/api/swagger-ui.html'
+  api-docs:
+    path: '/api/api-docs'

@@ -1,13 +1,12 @@
-package sgcor.tech.green_team_public_safety_api;
+package sgcor.tech.public_safety;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GreenTeamPublicSafetyApiApplication {
-
+public class PublicSafetyApiApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(GreenTeamPublicSafetyApiApplication.class, args);
+		SpringApplication.run(PublicSafetyApiApplication.class, args);
 	}
 
 }

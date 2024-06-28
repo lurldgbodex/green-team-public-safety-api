@@ -32,7 +32,7 @@
 - Unauthorized - HTTP 401
   ```json
     {
-      "message": "invalid credentials"
+      "error": "invalid credentials"
     }
   ```
   
@@ -67,18 +67,17 @@
 - Bad Request - HTTP 400 : missing request parameters
   ```json
     {
-      "errors": [
+      "errors":
         {
           "name": "name is required",
           "email": "email is required",
           "password": "password is required"
         }
-      ] 
     }
   ```
 - Bad Request - Http 400: user already exist with email
     ```json
       {
-       "message": "user with email already exists"
+       "error": "user with email already exists"
       }
     ```
