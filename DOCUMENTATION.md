@@ -6,6 +6,7 @@
 
 ### Authentication
 #### Login
+- Base Url: `https://publicsafety.azurewebsites.net`
 - Endpoint: `/api/users/authenticate`
 - HTTP Method: `POST`
 - Description: Authentication is done using spring security and a jwt token is issued for successful authentication
@@ -39,6 +40,7 @@
   
 ### User Account Management
 #### Register User
+- Base Url: `https://publicsafety.azurewebsites.net`
 - Endpoint:  `/api/users/register`
 - HTTP Method: `POST`
 - Description: Accepts an application/json request with request parameters and creates a new user with the request details in database
@@ -85,6 +87,7 @@
   
 ### Message
 #### Send Message
+- Base Url: `https://publicsafety.azurewebsites.net`
 - Endpoint:  `/api/messages/new`
 - HTTP Method: `POST`
 - Description: Accepts an application/json request with request parameters and send a new message
@@ -123,6 +126,7 @@
     }
  ```
 #### Get messages
+- Base Url: `https://publicsafety.azurewebsites.net`
 - Endpoint - `/api/messages/:userId`
 - HttpMethod - `GET`
 - Description: retrieves all messages between the authenticated user and the senderId
