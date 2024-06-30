@@ -7,6 +7,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import sgcor.tech.public_safety.exception.UnauthorizedException;
 import sgcor.tech.public_safety.exception.UserAlreadyExist;
@@ -28,9 +30,11 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
     @Mock
-    private UserRepository repository;
+    private AuthenticationManager authenticationManager;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private UserRepository repository;
     @Mock
     private JwtService jwtService;
     @InjectMocks
@@ -48,7 +52,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldCreateUserSuccess() {
+    void shouldCreateUserSuccessTest() {
         UserRequest request = UserRequest
                 .builder()
                 .email("user1@mail.com")
@@ -71,7 +75,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldNotCreateUserIfUserExist() {
+    void shouldNotCreateUserIfUserExistTest() {
         UserRequest request = UserRequest
                 .builder()
                 .email(customUser.getEmail())
@@ -86,7 +90,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldAuthenticateUser() {
+    void shouldAuthenticateUserTest() {
         AuthRequest request = AuthRequest
                 .builder()
                 .email(customUser.getEmail())
@@ -94,8 +98,12 @@ class UserServiceTest {
                 .password("password")
                 .build();
         when(repository.findByEmail(customUser.getEmail())).thenReturn(Optional.of(customUser));
-        when(passwordEncoder.matches("password", customUser.getPassword())).thenReturn(true);
         when(jwtService.generateToken(any())).thenReturn("dummy-token");
+
+        // mock authentication manager
+        Authentication auth = mock(Authentication.class);
+        when(auth.isAuthenticated()).thenReturn(true);
+        when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(auth);
 
         AuthResponse res = underTest.authenticateUser(request);
 
@@ -106,7 +114,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldNotAuthenticateIfBadCredential() {
+    void shouldNotAuthenticateIfBadCredentialTest() {
         AuthRequest userRequest = AuthRequest
                 .builder()
                 .email(customUser.getEmail())
@@ -114,6 +122,11 @@ class UserServiceTest {
                 .build();
 
         when(repository.findByEmail(customUser.getEmail())).thenReturn(Optional.of(customUser));
+
+        // mock authentication manager
+        Authentication auth = mock(Authentication.class);
+        when(auth.isAuthenticated()).thenReturn(false);
+        when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(auth);
 
         assertThatThrownBy(() -> underTest.authenticateUser(userRequest))
                 .isInstanceOf(UnauthorizedException.class)
