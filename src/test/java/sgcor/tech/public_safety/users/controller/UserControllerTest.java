@@ -11,7 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import sgcor.tech.public_safety.security.JwtService;
+import sgcor.tech.public_safety.config.JwtService;
 import sgcor.tech.public_safety.users.dto.AuthRequest;
 import sgcor.tech.public_safety.users.dto.AuthResponse;
 import sgcor.tech.public_safety.users.dto.CreateResponse;

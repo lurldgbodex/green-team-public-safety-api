@@ -1,12 +1,15 @@
 package sgcor.tech.public_safety.users.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sgcor.tech.public_safety.exception.UnauthorizedException;
 import sgcor.tech.public_safety.exception.UserAlreadyExist;
 import sgcor.tech.public_safety.exception.UserNotFoundException;
-import sgcor.tech.public_safety.security.JwtService;
+import sgcor.tech.public_safety.config.JwtService;
 import sgcor.tech.public_safety.users.dto.AuthRequest;
 import sgcor.tech.public_safety.users.dto.AuthResponse;
 import sgcor.tech.public_safety.users.dto.CreateResponse;
@@ -21,6 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     private User findByEmail(String email) {
         return userRepository.findByEmail(email)
@@ -55,9 +59,9 @@ public class UserService {
         try {
             User user = findByEmail(req.getEmail());
 
-            boolean validPassword = passwordEncoder.matches(req.getPassword(), user.getPassword());
-            boolean validCredential = user.getName().equals(req.getName());
-            if (validPassword && validCredential) {
+            Authentication request = new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword());
+            Authentication auth = authenticationManager.authenticate(request);
+            if (auth.isAuthenticated()) {
                 String token = jwtService.generateToken(user);
                 return AuthResponse
                         .builder()

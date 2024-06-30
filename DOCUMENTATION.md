@@ -2,6 +2,7 @@
 ## Table of Contents
 1. [Authentication](#authentication)
 2. [User Account Management](#user-account-management)
+3. [Message](#message)
 
 ### Authentication
 #### Login
@@ -81,3 +82,84 @@
        "error": "user with email already exists"
       }
     ```
+  
+### Message
+#### Send Message
+- Endpoint:  `/api/messages/new`
+- HTTP Method: `POST`
+- Description: Accepts an application/json request with request parameters and send a new message
+- Request Parameters: `applications/json`
+  * `message` : String, required (message the user want to send)
+  * `receiverId`: Long, required (userId of the receiver)
+  * `senderId`: Long, required (userId of the sender)
+  ```json
+    {
+      "message": "Hey watxup",
+      "receiverId": 398,
+    }
+  ```
+##### Response
+###### Success
+- Ok - Http 200
+  ```json
+     {
+        "id": 1
+        "message": "Hey watxup",
+        "senderId": "1"
+     }
+  ```
+###### Failure
+- NotFound - Http 404
+ ```json
+    {
+      "error": "reciever not found with id 398"
+    }
+ ```
+- BadRequest - Http 400
+ ```json
+    {
+      "message": "message is required",
+      "recieverId": "recieverId is required",
+    }
+ ```
+#### Get messages
+- Endpoint - `/api/messages/:userId`
+- HttpMethod - `GET`
+- Description: retrieves all messages between the authenticated user and the senderId
+##### Response
+##### Success
+- Ok - Http 200
+ ```json
+  {
+    "sent": [
+        {
+          "id": "2",
+          "message": "waxup",
+          "timeStamp": "2024-06-30T09:48:40.123+00:00",
+        }, {
+          "id": "3",
+          "message": "waxup",
+          "timeStamp": "2024-06-30T09:48:40.123+00:00",
+        }, {
+          "id": "4",
+          "message": "waxup",
+          "timeStamp": "2024-06-30T09:48:40.123+00:00",
+        },
+      ],
+    "received": [
+      {
+        "id": 8,
+        "messsage": "taddup",
+        "timestamp": "2024-06-30T09:48:40.123+00:00"
+      }, {
+        "id": 19,
+        "messsage": "taddup",
+        "timestamp": "2024-06-30T09:48:40.123+00:00" 
+      } {
+        "id": 28,
+        "messsage": "taddup",
+        "timestamp": "2024-06-30T09:48:40.123+00:00"
+      }
+    ]
+  }
+```

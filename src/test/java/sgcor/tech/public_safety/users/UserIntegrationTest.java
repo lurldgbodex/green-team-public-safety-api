@@ -122,15 +122,16 @@ public class UserIntegrationTest {
 //                .email(customUser.getEmail())
 //                .password("S3CuReDP@$$woRd")
 //                .build();
-
-        // authenticate the user
-//        AuthResponse authResponse = restTemplate.postForObject("/api/users/authenticate", request, AuthResponse.class);
-
+//
+//        // authenticate the user
+//        ResponseEntity<AuthResponse> authResponse = restTemplate.postForEntity("/api/users/authenticate", request, AuthResponse.class);
+//        AuthResponse responseBody = authResponse.getBody();
+//
 //        assertThat(authResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-//        assertThat(authResponse.getToken()).isNotNull();
-//        assertThat(authResponse.getBody().getToken()).isNotNull();
+//        assertThat(responseBody).isNotNull();
+//        assertThat(responseBody.getToken()).isNotNull();
 //    }
-
+//
 //    @Test
 //    void authenticateWithInvalidCredentialTest() {
 //        AuthRequest request = AuthRequest

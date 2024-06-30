@@ -1,4 +1,4 @@
-package sgcor.tech.public_safety.security;
+package sgcor.tech.public_safety.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,11 +12,12 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Component
 public class JwtService {
-    private static final long JWT_TOKEN_VALID_TIME = 24 * 60 * 1000;
+    private static final long JWT_TOKEN_VALID_TIME = TimeUnit.HOURS.toMillis(1);
     @Value("${JWT.SECRET}")
     private String secret;
 
